@@ -1,0 +1,336 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.wrap{padding:1rem 0}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.5rem}
+.tab{padding:6px 14px;border-radius:20px;border:0.5px solid var(--color-border-secondary);font-size:13px;cursor:pointer;background:var(--color-background-primary);color:var(--color-text-secondary);transition:all .2s}
+.tab.active{background:var(--color-text-primary);color:var(--color-background-primary);border-color:transparent}
+.section{display:none}.section.active{display:block}
+.hero{border-radius:var(--border-radius-lg);padding:1.25rem 1.5rem;margin-bottom:1rem;border:0.5px solid var(--color-border-tertiary)}
+.hero.purple{background:#EEEDFE;border-color:#AFA9EC}.hero.teal{background:#E1F5EE;border-color:#5DCAA5}
+.hero.coral{background:#FAECE7;border-color:#F0997B}.hero.amber{background:#FAEEDA;border-color:#EF9F27}
+.hero.blue{background:#E6F1FB;border-color:#85B7EB}
+.hero-title{font-size:15px;font-weight:500;margin-bottom:4px}
+.hero.purple .hero-title{color:#3C3489}.hero.teal .hero-title{color:#085041}
+.hero.coral .hero-title{color:#4A1B0C}.hero.amber .hero-title{color:#412402}
+.hero.blue .hero-title{color:#042C53}
+.hero-sub{font-size:13px;color:var(--color-text-secondary)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1rem}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1rem}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.1rem}
+.card-title{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:6px}
+.card-body{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.badge{display:inline-block;font-size:11px;font-weight:500;padding:2px 8px;border-radius:10px;margin-bottom:8px}
+.badge.purple{background:#EEEDFE;color:#3C3489}.badge.teal{background:#E1F5EE;color:#085041}
+.badge.coral{background:#FAECE7;color:#4A1B0C}.badge.amber{background:#FAEEDA;color:#412402}
+.badge.blue{background:#E6F1FB;color:#042C53}.badge.red{background:#FCEBEB;color:#A32D2D}
+.badge.green{background:#EAF3DE;color:#3B6D11}
+.h3{font-size:15px;font-weight:500;color:var(--color-text-primary);margin:1.2rem 0 0.6rem}
+.tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:6px;margin:2px;background:var(--color-background-secondary);color:var(--color-text-secondary);border:0.5px solid var(--color-border-tertiary)}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem}
+.vs-card{border-radius:var(--border-radius-md);padding:.9rem;border:0.5px solid var(--color-border-tertiary)}
+.vs-card.pos{background:#E1F5EE;border-color:#5DCAA5}.vs-card.norm{background:#FAEEDA;border-color:#EF9F27}
+.vs-card .vc-title{font-size:12px;font-weight:500;margin-bottom:4px}
+.vs-card.pos .vc-title{color:#085041}.vs-card.norm .vc-title{color:#412402}
+.vs-card .vc-body{font-size:12px;color:var(--color-text-secondary)}
+.quiz-wrap{margin-top:1rem}
+.quiz-q{font-size:14px;color:var(--color-text-primary);margin-bottom:10px;font-weight:500}
+.quiz-opts{display:flex;flex-direction:column;gap:6px}
+.quiz-opt{padding:9px 14px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);font-size:13px;cursor:pointer;background:var(--color-background-primary);color:var(--color-text-primary);text-align:left;transition:all .15s}
+.quiz-opt:hover{background:var(--color-background-secondary)}
+.quiz-opt.correct{background:#EAF3DE;border-color:#639922;color:#27500A}
+.quiz-opt.wrong{background:#FCEBEB;border-color:#E24B4A;color:#791F1F}
+.quiz-fb{margin-top:8px;font-size:13px;color:var(--color-text-secondary);padding:8px 12px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);display:none}
+.quiz-fb.show{display:block}
+.btn-next{margin-top:12px;padding:7px 16px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);cursor:pointer;font-size:13px;color:var(--color-text-primary);display:none}
+.btn-next.show{display:inline-block}
+.progress{display:flex;gap:4px;margin-bottom:1rem}
+.prog-dot{width:8px;height:8px;border-radius:50%;background:var(--color-border-secondary)}
+.prog-dot.done{background:var(--color-text-primary)}
+.prog-dot.current{background:var(--color-text-primary);box-shadow:0 0 0 2px var(--color-background-primary),0 0 0 3px var(--color-text-primary)}
+.score-box{text-align:center;padding:1.5rem;background:var(--color-background-secondary);border-radius:var(--border-radius-lg);display:none}
+.score-box.show{display:block}
+.score-num{font-size:32px;font-weight:500;color:var(--color-text-primary)}
+.flowrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:8px 0}
+.flow-box{padding:6px 12px;border-radius:var(--border-radius-md);font-size:12px;font-weight:500;border:0.5px solid}
+.flow-box.purple{background:#EEEDFE;color:#3C3489;border-color:#AFA9EC}
+.flow-box.teal{background:#E1F5EE;color:#085041;border-color:#9FE1CB}
+.flow-box.amber{background:#FAEEDA;color:#412402;border-color:#FAC775}
+.flow-box.coral{background:#FAECE7;color:#4A1B0C;border-color:#F0997B}
+.flow-arrow{font-size:16px;color:var(--color-text-secondary)}
+@media(prefers-color-scheme:dark){
+.hero.purple{background:#26215C;border-color:#534AB7}.hero.teal{background:#04342C;border-color:#0F6E56}
+.hero.coral{background:#4A1B0C;border-color:#993C1D}.hero.amber{background:#412402;border-color:#854F0B}
+.hero.blue{background:#042C53;border-color:#185FA5}
+.hero.purple .hero-title{color:#CECBF6}.hero.teal .hero-title{color:#9FE1CB}
+.hero.coral .hero-title{color:#F5C4B3}.hero.amber .hero-title{color:#FAC775}
+.hero.blue .hero-title{color:#B5D4F4}
+.badge.purple{background:#26215C;color:#CECBF6}.badge.teal{background:#04342C;color:#9FE1CB}
+.badge.coral{background:#4A1B0C;color:#F5C4B3}.badge.amber{background:#412402;color:#FAC775}
+.badge.blue{background:#042C53;color:#B5D4F4}.badge.red{background:#501313;color:#F7C1C1}
+.badge.green{background:#173404;color:#C0DD97}
+.vs-card.pos{background:#04342C;border-color:#1D9E75}.vs-card.norm{background:#412402;border-color:#BA7517}
+.vs-card.pos .vc-title{color:#9FE1CB}.vs-card.norm .vc-title{color:#FAC775}
+.quiz-opt.correct{background:#173404;border-color:#3B6D11;color:#C0DD97}
+.quiz-opt.wrong{background:#501313;border-color:#A32D2D;color:#F7C1C1}
+.flow-box.purple{background:#26215C;color:#CECBF6;border-color:#534AB7}
+.flow-box.teal{background:#04342C;color:#9FE1CB;border-color:#0F6E56}
+.flow-box.amber{background:#412402;color:#FAC775;border-color:#854F0B}
+.flow-box.coral{background:#4A1B0C;color:#F5C4B3;border-color:#993C1D}
+}
+</style>
+<h2 class="sr-only">Guía de estudio de economía 3° Medio — cinco objetivos de aprendizaje con resúmenes, conceptos clave y quiz interactivo</h2>
+<div class="wrap">
+<div class="tabs" id="tabs">
+  <button class="tab active" onclick="switchTab(0)">OA1 · La economía</button>
+  <button class="tab" onclick="switchTab(1)">OA2 · Decisiones</button>
+  <button class="tab" onclick="switchTab(2)">OA3 · Mercados</button>
+  <button class="tab" onclick="switchTab(3)">OA4 · Sistemas</button>
+  <button class="tab" onclick="switchTab(4)">OA5 · Fallas</button>
+  <button class="tab" onclick="switchTab(5)">🧠 Quiz</button>
+</div>
+
+<!-- OA1 -->
+<div class="section active" id="s0">
+  <div class="hero purple">
+    <div class="hero-title">OA1 · La economía como ciencia social</div>
+    <div class="hero-sub">Método científico, principios fundamentales, análisis positivo y normativo</div>
+  </div>
+  <div class="h3">¿Qué estudia la economía?</div>
+  <div class="grid2">
+    <div class="card"><span class="badge purple">Definición</span><div class="card-title">Ciencia social</div><div class="card-body">Estudia cómo las personas, familias, empresas y el Estado <strong>toman decisiones</strong> para enfrentar la <em>escasez</em>: los recursos son limitados, los deseos no.</div></div>
+    <div class="card"><span class="badge purple">Los agentes</span><div class="card-title">Quiénes deciden</div><div class="card-body">
+      <span class="tag">Personas / hogares</span>
+      <span class="tag">Sector privado</span>
+      <span class="tag">Estado</span>
+    </div></div>
+  </div>
+  <div class="h3">Método científico en economía</div>
+  <div class="flowrow">
+    <div class="flow-box purple">Observación</div><div class="flow-arrow">→</div>
+    <div class="flow-box purple">Supuestos</div><div class="flow-arrow">→</div>
+    <div class="flow-box purple">Modelo/teoría</div><div class="flow-arrow">→</div>
+    <div class="flow-box purple">Predicción</div><div class="flow-arrow">→</div>
+    <div class="flow-box purple">Verificación</div>
+  </div>
+  <div class="card-body" style="margin:8px 0;font-size:13px">Los <strong>supuestos</strong> simplifican la realidad (ej: "ceteris paribus" = todo lo demás constante). Las <strong>experiencias económicas</strong> son los datos reales que validan o refutan el modelo.</div>
+  <div class="h3">Análisis positivo vs. normativo</div>
+  <div class="vs">
+    <div class="vs-card pos">
+      <div class="vc-title">Análisis Positivo</div>
+      <div class="vc-body">Describe cómo <em>es</em> la realidad. Afirmaciones verificables.<br><br>Ej: <em>"El desempleo en Chile es 8%"</em><br>Ej: <em>"Subir el IVA reduce el consumo"</em></div>
+    </div>
+    <div class="vs-card norm">
+      <div class="vc-title">Análisis Normativo</div>
+      <div class="vc-body">Dice cómo <em>debería ser</em>. Incluye juicios de valor.<br><br>Ej: <em>"El Estado debería subir el salario mínimo"</em><br>Ej: <em>"La salud pública es un derecho"</em></div>
+    </div>
+  </div>
+  <div class="h3">Los 10 principios fundamentales (Mankiw)</div>
+  <div class="grid3">
+    <div class="card"><span class="badge purple">P1</span><div class="card-body">Las personas enfrentan disyuntivas (trade-offs)</div></div>
+    <div class="card"><span class="badge purple">P2</span><div class="card-body">El costo de algo es lo que se sacrifica para obtenerlo (<strong>costo de oportunidad</strong>)</div></div>
+    <div class="card"><span class="badge purple">P3</span><div class="card-body">Las personas racionales piensan en términos marginales</div></div>
+    <div class="card"><span class="badge purple">P4</span><div class="card-body">Las personas responden a los incentivos</div></div>
+    <div class="card"><span class="badge purple">P5</span><div class="card-body">El comercio beneficia a todos</div></div>
+    <div class="card"><span class="badge purple">P6</span><div class="card-body">Los mercados organizan eficientemente la actividad económica</div></div>
+  </div>
+</div>
+
+<!-- OA2 -->
+<div class="section" id="s1">
+  <div class="hero teal">
+    <div class="hero-title">OA2 · Cómo estudian los economistas las decisiones</div>
+    <div class="hero-sub">Incentivos, escasez, costos/beneficios marginales, economía del comportamiento</div>
+  </div>
+  <div class="h3">Conceptos clave</div>
+  <div class="grid2">
+    <div class="card"><span class="badge teal">Escasez</span><div class="card-body">Los recursos (tiempo, dinero, materias primas) son <strong>limitados</strong>. Toda decisión implica sacrificar algo. Eso genera el problema económico fundamental.</div></div>
+    <div class="card"><span class="badge teal">Incentivos</span><div class="card-body">Cualquier cosa que <strong>motiva o desalienta</strong> una acción. Pueden ser positivos (recompensas) o negativos (multas). Las personas responden a ellos.</div></div>
+    <div class="card"><span class="badge teal">Costo marginal</span><div class="card-body">Costo adicional de producir <strong>una unidad más</strong>. Ej: ¿cuánto cuesta hornear la galleta número 101?</div></div>
+    <div class="card"><span class="badge teal">Beneficio marginal</span><div class="card-body">Beneficio adicional de consumir <strong>una unidad más</strong>. La decisión óptima es cuando Bmg = Cmg.</div></div>
+  </div>
+  <div class="h3">Costos y beneficios sociales</div>
+  <div class="card" style="margin-bottom:1rem">
+    <div class="card-body">Los costos/beneficios <strong>privados</strong> son los que asume el individuo. Los <strong>sociales</strong> incluyen el efecto sobre toda la sociedad. La diferencia genera externalidades (OA5). Un fumador tiene un costo privado (cigarrillos) pero genera costos sociales (salud pública, pasivos).</div>
+  </div>
+  <div class="h3">Economía del comportamiento</div>
+  <div class="hero teal">
+    <div class="hero-title">¿Por qué no siempre somos "racionales"?</div>
+    <div class="hero-sub">La economía conductual (Kahneman, Thaler) estudia los sesgos que nos alejan del modelo racional estándar</div>
+  </div>
+  <div class="grid3">
+    <div class="card"><span class="badge teal">Sesgo de status quo</span><div class="card-body">Preferimos no cambiar aunque cambiar sea mejor. Ej: no mover las AFP aunque haya mejores opciones.</div></div>
+    <div class="card"><span class="badge teal">Aversión a la pérdida</span><div class="card-body">Perder $1.000 duele más de lo que alegra ganar $1.000. Las pérdidas pesan ~2x más que las ganancias.</div></div>
+    <div class="card"><span class="badge teal">Nudges</span><div class="card-body">Pequeños empujones que guían decisiones sin obligar. Ej: donación de órganos por defecto activa.</div></div>
+    <div class="card"><span class="badge teal">Racionalidad acotada</span><div class="card-body">Tomamos decisiones "suficientemente buenas" con información limitada y tiempo escaso.</div></div>
+    <div class="card"><span class="badge teal">Efecto ancla</span><div class="card-body">El primer número que vemos influye en nuestra decisión. Ej: precio tachado en oferta.</div></div>
+    <div class="card"><span class="badge teal">Descuento hiperbólico</span><div class="card-body">Preferimos recompensas inmediatas sobre mayores recompensas futuras. Procrastinación.</div></div>
+  </div>
+</div>
+
+<!-- OA3 -->
+<div class="section" id="s2">
+  <div class="hero coral">
+    <div class="hero-title">OA3 · Mercados: oferta, demanda y precios</div>
+    <div class="hero-sub">Factores de oferta/demanda, elasticidad, inflación, fijación de precios, rol del Estado</div>
+  </div>
+  <div class="h3">La demanda</div>
+  <div class="grid2">
+    <div class="card"><span class="badge coral">Ley de la demanda</span><div class="card-body">A mayor precio → menor cantidad demandada (relación inversa). La curva de demanda tiene pendiente negativa.</div></div>
+    <div class="card"><span class="badge coral">Factores que la desplazan</span><div class="card-body"><span class="tag">Ingreso</span><span class="tag">Precio bienes relacionados</span><span class="tag">Gustos/preferencias</span><span class="tag">Expectativas</span><span class="tag">Número de compradores</span></div></div>
+  </div>
+  <div class="h3">La oferta</div>
+  <div class="grid2">
+    <div class="card"><span class="badge coral">Ley de la oferta</span><div class="card-body">A mayor precio → mayor cantidad ofrecida (relación directa). La curva de oferta tiene pendiente positiva.</div></div>
+    <div class="card"><span class="badge coral">Factores que la desplazan</span><div class="card-body"><span class="tag">Costos de producción</span><span class="tag">Tecnología</span><span class="tag">Precios de insumos</span><span class="tag">Número de vendedores</span><span class="tag">Expectativas</span></div></div>
+  </div>
+  <div class="h3">Elasticidad</div>
+  <div class="grid2">
+    <div class="card"><span class="badge coral">Elasticidad-precio de la demanda</span><div class="card-body">Mide cuánto varía la cantidad demandada ante un cambio en el precio.<br><br><strong>Elástica</strong> (&gt;1): lujos, bienes con sustitutos → muy sensible al precio.<br><strong>Inelástica</strong> (&lt;1): necesidades básicas, gasolina → poco sensible.</div></div>
+    <div class="card"><span class="badge coral">Elasticidad-ingreso</span><div class="card-body"><strong>Bienes normales:</strong> al subir el ingreso, aumenta la demanda (+).<br><strong>Bienes inferiores:</strong> al subir el ingreso, cae la demanda (-).<br><strong>Bienes de lujo:</strong> elasticidad &gt; 1.</div></div>
+  </div>
+  <div class="h3">Inflación y fijación de precios</div>
+  <div class="grid3">
+    <div class="card"><span class="badge red">Inflación</span><div class="card-body">Aumento sostenido del nivel general de precios. Se mide con el IPC (Índice de Precios al Consumidor).</div></div>
+    <div class="card"><span class="badge coral">Precio máximo</span><div class="card-body">Estado fija un techo (bajo el equilibrio). Genera <strong>escasez</strong>. Ej: control de arriendos.</div></div>
+    <div class="card"><span class="badge coral">Precio mínimo</span><div class="card-body">Estado fija un piso (sobre el equilibrio). Genera <strong>excedente</strong>. Ej: salario mínimo.</div></div>
+  </div>
+</div>
+
+<!-- OA4 -->
+<div class="section" id="s3">
+  <div class="hero amber">
+    <div class="hero-title">OA4 · Sistemas económicos</div>
+    <div class="hero-sub">Mercado, mixto y centralizado: teorías, problema económico, agentes y experiencias</div>
+  </div>
+  <div class="h3">El problema económico fundamental</div>
+  <div class="flowrow">
+    <div class="flow-box amber">¿Qué producir?</div><div class="flow-arrow">+</div>
+    <div class="flow-box amber">¿Cómo producir?</div><div class="flow-arrow">+</div>
+    <div class="flow-box amber">¿Para quién?</div>
+  </div>
+  <div class="card-body" style="margin:8px 0 1rem;font-size:13px">Cada sistema resuelve estas tres preguntas de manera diferente.</div>
+  <div class="grid3">
+    <div class="card"><span class="badge green">Mercado (capitalismo)</span><div class="card-title">La "mano invisible"</div><div class="card-body">Los precios coordinan las decisiones. Adam Smith: el interés personal lleva al bien común. <strong>Experiencias:</strong> EE.UU., Alemania (Ordo-liberalismo).<br><br><span class="tag">Propiedad privada</span><span class="tag">Libre empresa</span><span class="tag">Competencia</span></div></div>
+    <div class="card"><span class="badge amber">Mixto</span><div class="card-title">Estado + mercado</div><div class="card-body">El mercado asigna la mayoría de recursos, pero el Estado corrige fallas e interviene en servicios esenciales. <strong>Experiencias:</strong> Chile, mayoría de países modernos.<br><br><span class="tag">Regulación estatal</span><span class="tag">Empresas públicas</span></div></div>
+    <div class="card"><span class="badge red">Centralizado (planificado)</span><div class="card-title">El Estado decide</div><div class="card-body">El Estado planifica qué, cómo y para quién. Marx: eliminación de la propiedad privada. <strong>Experiencias:</strong> URSS, Cuba, Corea del Norte.<br><br><span class="tag">Planificación central</span><span class="tag">Propiedad estatal</span></div></div>
+  </div>
+  <div class="h3">Relaciones entre agentes económicos</div>
+  <div class="flowrow" style="justify-content:center">
+    <div class="flow-box amber">Hogares</div><div class="flow-arrow">⇄</div>
+    <div class="flow-box amber">Empresas</div><div class="flow-arrow">⇄</div>
+    <div class="flow-box amber">Estado</div><div class="flow-arrow">⇄</div>
+    <div class="flow-box amber">Sector Externo</div>
+  </div>
+  <div class="card" style="margin-top:10px">
+    <div class="card-body">El <strong>flujo circular</strong>: los hogares ofrecen trabajo (factores) a las empresas → reciben salarios → gastan en bienes → las empresas reciben ingresos → el ciclo continúa. El Estado recauda impuestos y gasta en servicios públicos.</div>
+  </div>
+</div>
+
+<!-- OA5 -->
+<div class="section" id="s4">
+  <div class="hero blue">
+    <div class="hero-title">OA5 · Fallas del mercado</div>
+    <div class="hero-sub">Monopolios, oligopolios, colusión, competencia monopolística, externalidades negativas y rol del Estado</div>
+  </div>
+  <div class="h3">Estructuras de mercado imperfecto</div>
+  <div class="grid2">
+    <div class="card"><span class="badge blue">Monopolio</span><div class="card-body">Un solo productor domina el mercado. Fija el precio por encima del óptimo, producción baja, pérdida de bienestar social.<br><br>Ej: Correos de Chile (antes), Microsoft Windows en su época.</div></div>
+    <div class="card"><span class="badge blue">Oligopolio</span><div class="card-body">Pocos productores dominan. Pueden actuar como monopolio si se coordinan (colusión) o competir agresivamente.<br><br>Ej: industria de las telecomunicaciones en Chile.</div></div>
+    <div class="card"><span class="badge blue">Colusión</span><div class="card-body">Acuerdo <strong>ilegal</strong> entre competidores para fijar precios, repartirse mercados o limitar la competencia. Daño al consumidor. Ej: "Caso de los pollos" en Chile (CMPC también en papel).</div></div>
+    <div class="card"><span class="badge blue">Competencia monopolística</span><div class="card-body">Muchas empresas, pero cada una vende un producto diferenciado (marcas). Tienen algo de poder para fijar precios. Ej: restaurantes, ropa.</div></div>
+  </div>
+  <div class="h3">Externalidades negativas</div>
+  <div class="card" style="margin-bottom:1rem">
+    <div class="card-body">Ocurren cuando la actividad de un agente genera costos a <strong>terceros no involucrados</strong> en la transacción. El mercado "no ve" esos costos sociales y produce más de lo óptimo.<br><br>Ej: fábrica que contamina el río → los vecinos pagan el costo pero no son parte del negocio.</div>
+  </div>
+  <div class="h3">Dimensión ética y rol del Estado</div>
+  <div class="grid3">
+    <div class="card"><span class="badge blue">Regulación</span><div class="card-body">FNE (Fiscalía Nacional Económica) en Chile: investiga y sanciona la colusión y el abuso de posición dominante.</div></div>
+    <div class="card"><span class="badge blue">Impuestos Pigouvianos</span><div class="card-body">Impuestos que corrigen externalidades negativas encareciendo el bien dañino. Ej: impuesto al tabaco, a las gasolinas.</div></div>
+    <div class="card"><span class="badge blue">Dimensión ética</span><div class="card-body">Las fallas del mercado plantean preguntas morales: ¿es justo que pocos ganen a expensas de muchos? ¿Quién protege al consumidor?</div></div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="section" id="s5">
+  <div class="hero purple">
+    <div class="hero-title">Quiz de preparación</div>
+    <div class="hero-sub">10 preguntas estilo prueba — cubre todos los OA</div>
+  </div>
+  <div class="progress" id="progress"></div>
+  <div class="quiz-wrap" id="quiz-wrap"></div>
+  <div class="score-box" id="score-box">
+    <div class="score-num" id="score-num"></div>
+    <div style="font-size:14px;color:var(--color-text-secondary);margin-top:6px" id="score-msg"></div>
+    <button class="quiz-opt" style="margin-top:1rem;width:auto" onclick="resetQuiz()">Volver a intentar</button>
+  </div>
+</div>
+</div>
+
+<script>
+const questions=[
+  {q:"¿Cuál de las siguientes es una afirmación POSITIVA (no normativa)?",opts:["El Estado debería regular los precios de las farmacias","El aumento del precio del pan redujo su consumo un 10%","Chile debería tener un ingreso mínimo garantizado","La desigualdad es el mayor problema del país"],ans:1,fb:"Las afirmaciones positivas son verificables con datos. Las normativas incluyen juicios de valor ('debería')."},
+  {q:"El 'costo de oportunidad' de estudiar toda la noche para la prueba es:",opts:["El costo del cuaderno y lápiz","El tiempo de sueño y descanso que sacrificas","El precio de la prueba","El esfuerzo mental realizado"],ans:1,fb:"El costo de oportunidad es lo que se sacrifica al tomar una decisión: en este caso, el sueño y otras actividades alternativas."},
+  {q:"Según la economía del comportamiento, la 'aversión a la pérdida' significa que:",opts:["Las personas nunca pierden dinero","Perder $10.000 duele más psicológicamente que ganar $10.000","Las personas evitan el riesgo por completo","El Estado debe evitar que las personas pierdan dinero"],ans:1,fb:"Kahneman demostró que las pérdidas pesan aproximadamente el doble que las ganancias equivalentes en nuestras decisiones."},
+  {q:"Si el precio del café sube y la demanda de té aumenta, el té es un bien:",opts:["Inferior","Complementario del café","Sustituto del café","Inelástico"],ans:2,fb:"Los bienes sustitutos se reemplazan entre sí. Si sube el precio de uno, aumenta la demanda del otro."},
+  {q:"Un precio máximo fijado POR DEBAJO del precio de equilibrio genera:",opts:["Excedente de oferta","Inflación inmediata","Escasez del bien","Mayor producción"],ans:2,fb:"Al fijar un techo bajo el equilibrio, los productores ofrecen menos de lo que los consumidores quieren comprar → escasez."},
+  {q:"¿Cuál sistema económico resuelve el problema económico principalmente a través de la planificación estatal centralizada?",opts:["Sistema de mercado","Sistema mixto","Sistema centralizado o planificado","Modelo keynesiano"],ans:2,fb:"En el sistema centralizado (como la URSS), el Estado decide qué, cómo y para quién producir, en lugar del mercado."},
+  {q:"La colusión entre empresas es problemática principalmente porque:",opts:["Aumenta la competencia en el mercado","Genera más empleo","Permite a las empresas actuar como monopolio, perjudicando a los consumidores","Reduce los impuestos del Estado"],ans:2,fb:"La colusión es un acuerdo ilegal para fijar precios o repartir mercados, eliminando la competencia y perjudicando a los consumidores."},
+  {q:"Una fábrica que contamina un río genera una:",opts:["Externalidad positiva para los pescadores","Externalidad negativa para los vecinos del río","Mayor utilidad social","Internalización del costo de oportunidad"],ans:1,fb:"La externalidad negativa ocurre cuando la actividad de un agente genera costos a terceros no involucrados en la transacción."},
+  {q:"Un impuesto 'pigouviano' tiene como objetivo:",opts:["Aumentar los ingresos del Estado sin efecto secundario","Corregir externalidades negativas encareciendo el bien que genera daño","Subsidiar a los productores más eficientes","Eliminar el monopolio natural"],ans:1,fb:"Los impuestos pigouvianos (por el economista Pigou) buscan hacer que el precio de mercado refleje el verdadero costo social, corrigiendo externalidades."},
+  {q:"En competencia monopolística, las empresas tienen algo de poder de mercado gracias a:",opts:["El control estatal de precios","La diferenciación de productos (marca, calidad, diseño)","Acuerdos con competidores","El alto número de barreras de entrada"],ans:1,fb:"En competencia monopolística hay muchos vendedores, pero cada uno diferencia su producto, lo que le da cierto control sobre el precio (poder de mercado limitado)."},
+];
+let cur=0,score=0,answered=false;
+function renderProgress(){
+  const p=document.getElementById('progress');
+  p.innerHTML=questions.map((_,i)=>`<div class="prog-dot${i<cur?' done':i===cur?' current':''}"></div>`).join('');
+}
+function renderQ(){
+  const wrap=document.getElementById('quiz-wrap');
+  const q=questions[cur];
+  wrap.innerHTML=`
+    <div class="quiz-q">${cur+1}. ${q.q}</div>
+    <div class="quiz-opts">${q.opts.map((o,i)=>`<button class="quiz-opt" onclick="answer(${i})">${String.fromCharCode(65+i)}) ${o}</button>`).join('')}</div>
+    <div class="quiz-fb" id="qfb">${q.fb}</div>
+    <button class="btn-next" id="btn-next" onclick="nextQ()">${cur===questions.length-1?'Ver resultado':'Siguiente →'}</button>
+  `;
+  renderProgress();
+}
+function answer(i){
+  if(answered)return;
+  answered=true;
+  const q=questions[cur];
+  const opts=document.querySelectorAll('.quiz-opt');
+  opts[i].classList.add(i===q.ans?'correct':'wrong');
+  if(i!==q.ans)opts[q.ans].classList.add('correct');
+  if(i===q.ans)score++;
+  document.getElementById('qfb').classList.add('show');
+  document.getElementById('btn-next').classList.add('show');
+}
+function nextQ(){
+  cur++;answered=false;
+  if(cur>=questions.length){
+    document.getElementById('quiz-wrap').style.display='none';
+    document.getElementById('progress').style.display='none';
+    const sb=document.getElementById('score-box');
+    sb.classList.add('show');
+    document.getElementById('score-num').textContent=score+'/'+questions.length;
+    const pct=score/questions.length;
+    document.getElementById('score-msg').textContent=pct>=0.8?'¡Excelente! Estás muy bien preparado/a 🎉':pct>=0.6?'Buen trabajo. Repasa los conceptos donde fallaste.':'Sigue estudiando, puedes mejorar. ¡Tú puedes!';
+  }else{renderQ();}
+}
+function resetQuiz(){
+  cur=0;score=0;answered=false;
+  document.getElementById('quiz-wrap').style.display='block';
+  document.getElementById('progress').style.display='flex';
+  document.getElementById('score-box').classList.remove('show');
+  renderQ();
+}
+function switchTab(n){
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',i===n));
+  document.querySelectorAll('.section').forEach((s,i)=>s.classList.toggle('active',i===n));
+}
+renderQ();
+</script>
